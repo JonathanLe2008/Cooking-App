@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'default/layout.css' %}">
+        {% comment %} <link rel="stylesheet" href="{% static 'default/bootstrap.css' %}"> {% endcomment %}
+        <script src={% static 'default/index.js' %}></script>
+        
+    </head>
+    <body>
+        <h1 class="cooking_website">Cooking Website</h1>
+        <div>
+            {% if user.is_authenticated %}
+                <div class="sign_in concept-five">Signed in as <strong>{{ user.username }}</strong>. </div>
+            {% else %}
+                <div class="sign_in">Not signed in.</div>
+            {% endif %}
+        </div>
+        <ul class="nav">
+            <li class="nav-item"> <a class="nav-link" id="view_recipes" href="{% url 'view_recipes' %}">view recipes</a> </li> 
+            <li class="nav-item"> <a class="nav-link" id="search_recipes" href="{% url 'search_recipes' %}">search recipes</a> </li>            
+            {% if user.is_authenticated %}
+            <li class="nav-item"> <a class="nav-link" id="create_recipes" href="{% url 'create_recipes' %}">create recipe</a> </li>
+            <li class="nav-item"> <a class="nav-link" id="user_recipes" href="{% url 'user_recipes' %}">user recipes</a> </li>
+            <li class="nav-item"> <a class="nav-link" id="log_out" href="{% url 'log_out' %}">log out</a> </li>
+            {% else %}
+            <li class="nav-item"> <a class="nav-link" id="log_in" href="{% url 'login' %}">log in</a> </li>
+            <li class="nav-item"> <a class="nav-link" id="register" href="{% url 'register' %}">register</a> </li>
+            {% endif %}
+        </ul>
+        <hr>
+        
+        {% block body %}
+        {% endblock %}
+
+        <div id="copyright" style="text-align:center">
+            <b>&copy; 2024 Jonathan Le. All Rights Reserved. 
+        </div>
+    </body>
+</html>

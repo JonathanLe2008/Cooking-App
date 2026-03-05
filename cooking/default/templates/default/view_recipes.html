@@ -1,0 +1,85 @@
+{% extends "default/layout.html" %}
+{% load static %}
+
+{% block title %}View Recipes{% endblock %}
+
+{% block body %}
+<script src={% static 'default/view_recipes.js' %}></script>
+<link rel="stylesheet" href="{% static 'default/view_recipes.css' %}">
+
+
+{% if recipe %}
+<div class="viewing_recipe">
+    <h1>{{recipe.title}}</h1>
+</br>
+    <div>
+        Recipe Description:{{recipe.description}}
+    </div>
+</br>
+
+<div>
+    <h4>Ingredients:</h4>
+    {% for temp in ingredients %}
+    <ol>{{forloop.counter}} - {{temp.ingredient_name}} ({{temp.ingredient_measurement}})</ol>
+    {% endfor %}
+</div>
+
+<div>
+    <h4>Directions:</h4>
+    {% for temp in directions %}
+    <ol>{{forloop.counter}} - {{temp.recipe_direction}}</ol>
+    {% endfor %}
+</div>
+
+<div>
+    <img class="card-img-top" src="/images/{{image}}" style="width: 300px; height: 250px; object-fit: cover;" >
+</div>
+
+
+{% if user %}
+    <a href= {% url 'edit_recipe' recipe.id %} class="button button-1" alt="No Image">Edit Recipe</a>
+    <a href= {% url 'delete_recipe' recipe.id %} class="button button-1" alt="No Image">Delete Recipe</a>
+{% endif %}
+
+</div>
+
+
+{% comment %} 
+    title=models.CharField(max_length=64)
+    description=models.TextField(default="")
+    ingredients=models.ManyToManyField(Ingredient, related_name="ingredients", null=True, blank=True)
+    directions=models.ManyToManyField(Direction, related_name="directions", null=True, blank=True)
+    user_published=models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="user_published")
+    date=models.DateField(null=True)
+    
+    image=models.ImageField(null=True,  blank=True)#subdirectory files will be uploaded to
+    #->uploaded will be a link=> html= <img src={{asdf.image}} /> {% endcomment %}
+
+
+{% else %}
+{% comment %} <button href= {% url 'random_recipe' %} type="button" class="btn btn-secondary" id="random_button"> Random Recipe</button> {% endcomment %}
+<button type="button" id="random_button">
+    <a href="{% url 'random_recipe' %}" class="glow-on-hover">Random Recipe!</a>
+</button>
+
+<div class="row">
+{% for x in recipes %}
+{% comment %} images/{{x.image}} {% endcomment %}   
+<div class="col-sm-6 col-lg-3 py-2">
+<div class="card" style="width: 18rem; margin: 0px 25px 0px 25px">
+    <img class="card-img-top" style=" padding:10px; object-fit: cover; position: relative; height:300px; max-width:300px;width: expression(this.width > 300? 300: true);" src="images/{{x.image}}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{x.title}}</h5>
+      <p class="card-text">{{x.description}} </p>
+      <a href= {% url 'view_recipe_details' x.id %} class="button-2">View Recipe</a>
+    </div>
+  </div>
+</div>  
+{% endfor %}
+</div>
+
+{% endif %}
+
+
+
+{% endblock %}

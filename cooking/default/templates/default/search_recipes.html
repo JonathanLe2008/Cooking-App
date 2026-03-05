@@ -1,0 +1,44 @@
+{% extends "default/layout.html" %}
+{% load static %}
+
+{% block title %}Search Recipes{% endblock %}
+
+{% block body %}
+<script src={% static 'default/search_recipes.js' %}></script>
+<link rel="stylesheet" href="{% static 'default/search_recipes.css' %}">
+
+
+<form method="POST" action={% url 'search_recipes' %}>
+    {% csrf_token %}
+    <div>
+        Search: <input type="text" placeholder="Search Name" name="search_bar">
+        <button class="btn btn-success" id="search_button" type="submit">Go</button>
+    </div>
+</form>
+
+
+{% if Searched %}
+<div class="row">
+  {% for x in recipes %}
+  {% comment %} images/{{x.image}} {% endcomment %}
+  <div class="col-sm-6 col-lg-3 py-2">
+  <div class="card" style="width: 18rem;">
+      <img class="card-img-top border border-primary" style=" margin: 10px px 10px 10px; object-fit: cover; position: relative; height:300px; max-width:300px;width: expression(this.width > 300? 300: true);" src="images/{{x.image}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{x.title}}</h5>
+        <p class="card-text">{{x.description}} </p>
+        <a href= {% url 'view_recipe_details' x.id %} class="btn btn-primary">View Recipe</a>
+      </div>
+    </div>
+  </div>  
+  {% endfor %}
+  </div>
+
+
+{% endif %}
+
+
+
+
+
+{% endblock %}

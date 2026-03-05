@@ -1,0 +1,145 @@
+{% extends "default/layout.html" %}
+{% load static %}
+
+{% block title %}User Recipes{% endblock %}
+
+{% block body %}
+
+
+{% if editing %}
+{% comment %} <h1> {{recipe.id}}</h1> {% endcomment %}
+
+
+<script src={% static 'default/create_recipes.js' %}></script>
+<link rel="stylesheet" href="{% static 'default/create_recipes.css' %}">
+
+
+<form action={% url 'edit_recipe' id %} method="POST" enctype="multipart/form-data" > {%comment%} onsubmit="return false;" {% endcomment %}
+  {% csrf_token %}
+<div class="form-group col-md-6">
+    <label for="">Recipe Title: </label>
+    <div placeholder="Title" name='recipe_title' id="recipe_title" >{{form.title}}</div>
+</div> 
+
+<div id="recipe_description">
+  <textarea required name="recipe_description" maxlength="75" id="Description" placeholder="Description" rows="4" cols="30">{{recipe.description}}</textarea>
+</div>
+
+
+<div class="ingredient_list">
+
+  <table id="ingredients_table" class="ingredient_table_class">
+    <thead>
+  <tr>
+    <th colspan= "3" > Ingredients:</th>  
+  </tr>
+</thead>
+<tbody>
+  {% for ingr in ingredients %}
+  <tr id="{{forloop.counter}}">
+    <td id="id{{forloop.counter}}" class="ingredient_name_placeholder">{{forloop.counter}}</td>
+    <td> <input required type="text" placeholder="Ingredient_Name" value="{{ingr.ingredient_name}}"></td>
+    <td> <input required type="text" placeholder="measurement" value="{{ingr.ingredient_measurement}}"></td>
+  </tr>
+  {% endfor %}
+  {% comment %} <tr id="1">
+    <td id="id1" class="ingredient_name_placeholder">1</td>
+    <td> <input required type="text" placeholder="Ingredient_Name"></td>
+    <td> <input required type="text" placeholder="measurement"></td>
+  </tr> {% endcomment %}
+
+
+</tbody>
+  </table>
+  <button type="button" id="add_ingredients" class="btn btn-success"> Add Ingredients</button> 
+</div> 
+
+
+
+<div class="direction_list">
+    <table style="width: 50%" id="directions_table">
+      <thead>
+    <tr>
+      <th colspan= "2" > Directions: </th>  
+    </tr>
+  </thead>
+  <tbody>
+    {% comment %} <tr id="1">
+      <td id="directions_number1" class="directions_number_placeholder"> 1</td>
+      <td> <textarea required maxlength="200" class="form-control directions_text_placeholder" id="directions_text1" rows="2" placeholder="Direction 1:"> </textarea></td>
+    </tr>
+   {% endcomment %}
+
+   {% for direction in directions %}
+   <tr id="{{forloop.counter}}">
+    <td id="directions_number{{forloop.counter}}" class="directions_number_placeholder"> {{forloop.counter}}</td>
+    <td> <textarea required maxlength="200" class="form-control directions_text_placeholder" id="directions_text1" rows="2" placeholder="Direction {{forloop.counter}}:">{{direction.recipe_direction}}</textarea></td>
+  </tr>
+    {% comment %} {{direction.recipe_direction}} {% endcomment %}
+
+   {% endfor %}
+  
+  </tbody>
+  </table>
+      <button type="button" id="add_directions" class="btn btn-success"> Add Extra Direction</button> 
+
+
+</div>
+
+<div id="image">
+    <div class="form-group">
+        <label for="exampleFormControlFile1">Import Image</label>
+        {% comment %} <input onchange="loadFile(event)"name="recipe_image" type={{form.image}} class="form-control-file" id="exampleFormControlFile1" accept=".jpg, .jpeg, .png"> {% endcomment %}
+        {{form.image}}
+        
+        {% if current_image %}
+        {% comment %} <button id="clear">Clear image </button> {% endcomment %}
+      </br>
+        <label for="exampleFormControlFile1">Current Image:</label>
+          <img style=" margin: 10px px 10px 10px; object-fit: cover; position: relative; height:300px; max-width:300px;width: expression(this.width > 300? 300: true);" src="/images/{{current_image}}" alt="Card image cap">
+        {% endif %}
+      </div>
+</div>
+
+
+<input type="hidden" id="ingredients_list_hidden" name="ingredients_list_hidden">
+<input type="hidden" id="ingredients_measurements_hidden" name="ingredients_measurements_hidden">
+<input type="hidden" id="directions_hidden" name="directions_hidden">
+
+<button type="buttom" class="btn btn-success" id="save_button"> Save </button> 
+{% comment %} <button type="submit">save</button> {% endcomment %}
+</form>
+
+
+{% else %}
+
+
+
+
+
+
+
+<script src={% static 'default/user_recipes.js' %}></script>
+<link rel="stylesheet" href="{% static 'default/user_recipes.css' %}">
+
+
+
+<div class="row">
+  {% for x in recipes %}
+  {% comment %} images/{{x.image}} {% endcomment %}
+  <div class="col-sm-6 col-lg-3 py-2">
+  <div class="card" style="width: 18rem;">
+      <img class="card-img-top border border-primary" style=" margin: 10px px 10px 10px; object-fit: cover; position: relative; height:300px; max-width:300px;width: expression(this.width > 300? 300: true);" src="images/{{x.image}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{x.title}}</h5>
+        <p class="card-text">{{x.description}} </p>
+        <a href= {% url 'view_recipe_details' x.id %} class="btn btn-primary">View Recipe</a>
+      </div>
+    </div>
+  </div>  
+  {% endfor %}
+  </div>
+{% endif %}
+
+
+{% endblock %}

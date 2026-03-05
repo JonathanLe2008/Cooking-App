@@ -1,0 +1,43 @@
+
+#search_button {
+  outline:none;
+  height: 40px;
+  text-align: center;
+  width: 130px;
+  border-radius:40px;
+  background: #fff;
+  border: 2px solid #1ECD97;
+  color:#1ECD97;
+  letter-spacing:1px;
+  text-shadow:0;
+  font-size:12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  button:hover {
+    color:white;
+    background: #1ECD97;
+  }
+  button:active {
+    letter-spacing: 2px ;
+  }
+  button:after {
+    content:"SUBMIT";
+  }
+}
+
+
+.card {
+	animation: fade-in-bck 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    animation-duration: 2s;
+}
+
+ @keyframes fade-in-bck {
+    0% {
+      transform: translateZ(80px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateZ(0);
+      opacity: 1;
+    }
+  }

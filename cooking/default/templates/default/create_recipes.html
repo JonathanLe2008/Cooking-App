@@ -1,0 +1,89 @@
+{% extends "default/layout.html" %}
+{% load static %}
+
+{% block title %}Create Recipe{% endblock %}
+
+{% block body %}
+
+
+
+
+<script src={% static 'default/create_recipes.js' %}></script>
+<link rel="stylesheet" href="{% static 'default/create_recipes.css' %}">
+
+<form action={% url 'create_recipes' %} method="POST" enctype="multipart/form-data" > {%comment%} onsubmit="return false;" {% endcomment %}
+  {% csrf_token %}
+<div class="form-group col-md-6">
+    <label for="">Recipe Title: </label>
+    <div autofocus placeholder="Title" name='recipe_title' id="recipe_title">{{form.title}}</div>
+</div> 
+
+<div id="recipe_description">
+  <textarea required name="recipe_description" maxlength="75" id="Description" placeholder="Description" rows="4" cols="30"></textarea>
+</div>
+
+
+<div class="ingredient_list">
+
+  <table id="ingredients_table" class="ingredient_table_class">
+    <thead>
+  <tr>
+    <th colspan= "3" > Ingredients:</th>  
+  </tr>
+</thead>
+<tbody>
+  <tr id="1">
+    <td id="id1" class="ingredient_name_placeholder">1</td>
+    <td> <input required type="text" placeholder="Ingredient_Name"></td>
+    <td> <input required type="text" placeholder="measurement"></td>
+  </tr>
+
+
+</tbody>
+
+  </table>
+  <button type="button" id="add_ingredients" class="btn btn-success"> Add Ingredients</button> 
+</div> 
+
+
+
+<div class="direction_list">
+    <table style="width: 50%" id="directions_table">
+      <thead>
+    <tr>
+      <th colspan= "2" > Directions: </th>  
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="1">
+      <td id="directions_number1" class="directions_number_placeholder"> 1</td>
+      <td> <textarea required maxlength="200" class="form-control directions_text_placeholder" id="directions_text1" rows="2" placeholder="Direction 1:"></textarea></td>
+    </tr>
+  
+  
+  </tbody>
+  </table>
+      <button type="button" id="add_directions" class="btn btn-success"> Add Extra Direction</button> 
+
+
+</div>
+
+<div id="image">
+    <div class="form-group">
+        <label for="exampleFormControlFile1">Import Image</label>
+        {% comment %} <input onchange="loadFile(event)"name="recipe_image" type={{form.image}} class="form-control-file" id="exampleFormControlFile1" accept=".jpg, .jpeg, .png"> {% endcomment %}
+        {{form.image}}
+      </div>
+      <img id="output" width="40%"/>
+</div>
+
+
+<input type="hidden" id="ingredients_list_hidden" name="ingredients_list_hidden">
+<input type="hidden" id="ingredients_measurements_hidden" name="ingredients_measurements_hidden">
+<input type="hidden" id="directions_hidden" name="directions_hidden">
+
+<button type="buttom" class="btn btn-success" id="save_button"> Save </button> 
+{% comment %} <button type="submit">save</button> {% endcomment %}
+</form>
+    
+{% endblock %}

@@ -1,0 +1,36 @@
+.directions_number_placeholder{
+  width: 20% !important;
+}
+
+.directions_text_placeholder{
+  width: 100% !important; 
+}
+
+#Description{
+  height: 60px;
+  margin:10px;
+}
+#add_ingredients, #add_directions, #post_button, #save_button {
+  margin: 10px;
+}
+.ingredient_name_placeholder{
+  width:40% !important;
+}
+.ingredient_list table, tr, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 30%;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.close {
+  align-content: center;
+  width:5%;
+}
+
+textarea {
+  flex-wrap: wrap;
+}
+
+
